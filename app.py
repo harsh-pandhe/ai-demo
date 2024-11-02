@@ -2,22 +2,15 @@ from openai import OpenAI
 import secret
 
 client = OpenAI(api_key=secret.OPENAI_API_KEY)
-completion = client.chat.completions.create(
-    model="gpt-4o",
-    messages=[
-        {
-            "role": "user",
-            "content": [
-                {"type": "text", "text": "What's in this image?"},
-                {
-                    "type": "image_url",
-                    "image_url": {
-                        "url": "https://www.smartsheet.com/sites/default/files/2021-11/IC-Construction-Billing-Invoice-Example-Template.png",
-                    },
-                },
-            ],
-        }
-    ],
+
+
+response = client.images.generate(
+    model="dall-e-3",
+    prompt="Krishna giving Arjuna the Gita on the battlefield of Kurukshetra",
+    size="1024x1024",
+    quality="standard",
+    n=1,
 )
 
-print(completion.choices[0].message.content)
+image_url = response.data[0].url
+print(image_url)
