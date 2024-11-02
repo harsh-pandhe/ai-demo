@@ -3,14 +3,31 @@ import secret
 
 client = OpenAI(api_key=secret.OPENAI_API_KEY)
 
-
-response = client.images.generate(
-    model="dall-e-3",
-    prompt="Krishna giving Arjuna the Gita on the battlefield of Kurukshetra",
-    size="1024x1024",
-    quality="standard",
-    n=1,
+response = client.chat.completions.create(
+    model="gpt-4o-mini",
+    messages=[
+        {
+            "role": "user",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "What are in these images? Is there any difference between them?",
+                },
+                {
+                    "type": "image_url",
+                    "image_url": {
+                        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg",
+                    },
+                },
+                {
+                    "type": "image_url",
+                    "image_url": {
+                        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg",
+                    },
+                },
+            ],
+        }
+    ],
+    max_tokens=300,
 )
-
-image_url = response.data[0].url
-print(image_url)
+print(response.choices[0])
